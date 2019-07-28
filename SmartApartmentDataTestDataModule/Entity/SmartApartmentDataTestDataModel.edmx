@@ -1,0 +1,516 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SmartApartmentModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="class">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="260" />
+        </EntityType>
+        <EntityType Name="faction">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="playable" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="guild">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="realm" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="region" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="fk_faction" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="guild_members">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fk_player" Type="int" />
+          <Property Name="fk_guild" Type="int" />
+        </EntityType>
+        <EntityType Name="player">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="realm" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="region" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="fk_class" Type="int" Nullable="false" />
+          <Property Name="fk_faction" Type="int" Nullable="false" />
+          <Property Name="fk_race" Type="int" Nullable="false" />
+          <Property Name="fk_user" Type="int" />
+        </EntityType>
+        <EntityType Name="race">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="playable" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="auth0_subject" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <Association Name="guild_ibfk_1">
+          <End Role="faction" Type="Self.faction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="guild" Type="Self.guild" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="faction">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="guild">
+              <PropertyRef Name="fk_faction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="guild_members_guild_pk_id_fk">
+          <End Role="guild" Type="Self.guild" Multiplicity="0..1" />
+          <End Role="guild_members" Type="Self.guild_members" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="guild">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="guild_members">
+              <PropertyRef Name="fk_guild" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="guild_members_player_pk_id_fk">
+          <End Role="player" Type="Self.player" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="guild_members" Type="Self.guild_members" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="player">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="guild_members">
+              <PropertyRef Name="fk_player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="player_ibfk_1">
+          <End Role="race" Type="Self.race" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="race">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="fk_race" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="player_ibfk_2">
+          <End Role="faction" Type="Self.faction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="faction">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="fk_faction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="player_ibfk_3">
+          <End Role="class" Type="Self.class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="fk_class" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="player_user_id_fk">
+          <End Role="user" Type="Self.user" Multiplicity="0..1" />
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="fk_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SmartApartmentModelStoreContainer">
+          <EntitySet Name="class" EntityType="Self.class" Schema="smartapartment" store:Type="Tables" />
+          <EntitySet Name="faction" EntityType="Self.faction" Schema="smartapartment" store:Type="Tables" />
+          <EntitySet Name="guild" EntityType="Self.guild" Schema="smartapartment" store:Type="Tables" />
+          <EntitySet Name="guild_members" EntityType="Self.guild_members" Schema="smartapartment" store:Type="Tables" />
+          <EntitySet Name="player" EntityType="Self.player" Schema="smartapartment" store:Type="Tables" />
+          <EntitySet Name="race" EntityType="Self.race" Schema="smartapartment" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="smartapartment" store:Type="Tables" />
+          <AssociationSet Name="guild_ibfk_1" Association="Self.guild_ibfk_1">
+            <End Role="faction" EntitySet="faction" />
+            <End Role="guild" EntitySet="guild" />
+          </AssociationSet>
+          <AssociationSet Name="guild_members_guild_pk_id_fk" Association="Self.guild_members_guild_pk_id_fk">
+            <End Role="guild" EntitySet="guild" />
+            <End Role="guild_members" EntitySet="guild_members" />
+          </AssociationSet>
+          <AssociationSet Name="guild_members_player_pk_id_fk" Association="Self.guild_members_player_pk_id_fk">
+            <End Role="player" EntitySet="player" />
+            <End Role="guild_members" EntitySet="guild_members" />
+          </AssociationSet>
+          <AssociationSet Name="player_ibfk_1" Association="Self.player_ibfk_1">
+            <End Role="race" EntitySet="race" />
+            <End Role="player" EntitySet="player" />
+          </AssociationSet>
+          <AssociationSet Name="player_ibfk_2" Association="Self.player_ibfk_2">
+            <End Role="faction" EntitySet="faction" />
+            <End Role="player" EntitySet="player" />
+          </AssociationSet>
+          <AssociationSet Name="player_ibfk_3" Association="Self.player_ibfk_3">
+            <End Role="class" EntitySet="class" />
+            <End Role="player" EntitySet="player" />
+          </AssociationSet>
+          <AssociationSet Name="player_user_id_fk" Association="Self.player_user_id_fk">
+            <End Role="user" EntitySet="user" />
+            <End Role="player" EntitySet="player" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SmartApartmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="class">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="260" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="players" Relationship="Self.player_ibfk_3" FromRole="class" ToRole="player" />
+        </EntityType>
+        <EntityType Name="faction">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="playable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="guilds" Relationship="Self.guild_ibfk_1" FromRole="faction" ToRole="guild" />
+          <NavigationProperty Name="players" Relationship="Self.player_ibfk_2" FromRole="faction" ToRole="player" />
+        </EntityType>
+        <EntityType Name="guild">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="realm" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="region" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fk_faction" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="faction" Relationship="Self.guild_ibfk_1" FromRole="guild" ToRole="faction" />
+          <NavigationProperty Name="guild_members" Relationship="SmartApartmentModel.guild_members_guild_pk_id_fk" FromRole="guild" ToRole="guild_members" />
+        </EntityType>
+        <EntityType Name="player">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="realm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="region" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fk_class" Type="Int32" Nullable="false" />
+          <Property Name="fk_faction" Type="Int32" Nullable="false" />
+          <Property Name="fk_race" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="class" Relationship="Self.player_ibfk_3" FromRole="player" ToRole="class" />
+          <NavigationProperty Name="faction" Relationship="Self.player_ibfk_2" FromRole="player" ToRole="faction" />
+          <NavigationProperty Name="race" Relationship="Self.player_ibfk_1" FromRole="player" ToRole="race" />
+          <NavigationProperty Name="guild_members" Relationship="SmartApartmentModel.guild_members_player_pk_id_fk" FromRole="player" ToRole="guild_members" />
+          <Property Name="fk_user" Type="Int32" />
+          <NavigationProperty Name="user" Relationship="SmartApartmentModel.player_user_id_fk" FromRole="player" ToRole="user" />
+        </EntityType>
+        <EntityType Name="race">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="playable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="players" Relationship="Self.player_ibfk_1" FromRole="race" ToRole="player" />
+        </EntityType>
+        <Association Name="player_ibfk_3">
+          <End Role="class" Type="Self.class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="fk_class" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="guild_ibfk_1">
+          <End Role="faction" Type="Self.faction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="guild" Type="Self.guild" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="faction">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="guild">
+              <PropertyRef Name="fk_faction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="player_ibfk_2">
+          <End Role="faction" Type="Self.faction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="faction">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="fk_faction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="player_ibfk_1">
+          <End Role="race" Type="Self.race" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="player" Type="Self.player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="race">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="fk_race" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="smartapartmentEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="classes" EntityType="Self.class" />
+          <EntitySet Name="factions" EntityType="Self.faction" />
+          <EntitySet Name="guilds" EntityType="Self.guild" />
+          <EntitySet Name="players" EntityType="Self.player" />
+          <EntitySet Name="races" EntityType="Self.race" />
+          <AssociationSet Name="player_ibfk_3" Association="Self.player_ibfk_3">
+            <End Role="class" EntitySet="classes" />
+            <End Role="player" EntitySet="players" />
+          </AssociationSet>
+          <AssociationSet Name="guild_ibfk_1" Association="Self.guild_ibfk_1">
+            <End Role="faction" EntitySet="factions" />
+            <End Role="guild" EntitySet="guilds" />
+          </AssociationSet>
+          <AssociationSet Name="player_ibfk_2" Association="Self.player_ibfk_2">
+            <End Role="faction" EntitySet="factions" />
+            <End Role="player" EntitySet="players" />
+          </AssociationSet>
+          <AssociationSet Name="player_ibfk_1" Association="Self.player_ibfk_1">
+            <End Role="race" EntitySet="races" />
+            <End Role="player" EntitySet="players" />
+          </AssociationSet>
+          <EntitySet Name="guild_members" EntityType="SmartApartmentModel.guild_members" />
+          <EntitySet Name="users" EntityType="SmartApartmentModel.user" />
+          <AssociationSet Name="guild_members_player_pk_id_fk" Association="SmartApartmentModel.guild_members_player_pk_id_fk">
+            <End Role="player" EntitySet="players" />
+            <End Role="guild_members" EntitySet="guild_members" />
+          </AssociationSet>
+          <AssociationSet Name="player_user_id_fk" Association="SmartApartmentModel.player_user_id_fk">
+            <End Role="user" EntitySet="users" />
+            <End Role="player" EntitySet="players" />
+          </AssociationSet>
+          <AssociationSet Name="guild_members_guild_pk_id_fk" Association="SmartApartmentModel.guild_members_guild_pk_id_fk">
+            <End Role="guild" EntitySet="guilds" />
+            <End Role="guild_members" EntitySet="guild_members" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="guild_members">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="pk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fk_player" Type="Int32" />
+          <NavigationProperty Name="player" Relationship="SmartApartmentModel.guild_members_player_pk_id_fk" FromRole="guild_members" ToRole="player" />
+          <Property Name="fk_guild" Type="Int32" />
+          <NavigationProperty Name="guild" Relationship="SmartApartmentModel.guild_members_guild_pk_id_fk" FromRole="guild_members" ToRole="guild" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="pk_id" />
+          </Key>
+          <Property Name="auth0_subject" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="pk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="players" Relationship="SmartApartmentModel.player_user_id_fk" FromRole="user" ToRole="player" />
+        </EntityType>
+        <Association Name="guild_members_player_pk_id_fk">
+          <End Type="SmartApartmentModel.player" Role="player" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SmartApartmentModel.guild_members" Role="guild_members" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="player">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="guild_members">
+              <PropertyRef Name="fk_player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="player_user_id_fk">
+          <End Type="SmartApartmentModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="SmartApartmentModel.player" Role="player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="player">
+              <PropertyRef Name="fk_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="guild_members_guild_pk_id_fk">
+          <End Type="SmartApartmentModel.guild" Role="guild" Multiplicity="0..1" />
+          <End Type="SmartApartmentModel.guild_members" Role="guild_members" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="guild">
+              <PropertyRef Name="pk_id" />
+            </Principal>
+            <Dependent Role="guild_members">
+              <PropertyRef Name="fk_guild" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SmartApartmentModelStoreContainer" CdmEntityContainer="smartapartmentEntities">
+          <EntitySetMapping Name="classes">
+            <EntityTypeMapping TypeName="SmartApartmentModel.class">
+              <MappingFragment StoreEntitySet="class">
+                <ScalarProperty Name="pk_id" ColumnName="pk_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="factions">
+            <EntityTypeMapping TypeName="SmartApartmentModel.faction">
+              <MappingFragment StoreEntitySet="faction">
+                <ScalarProperty Name="pk_id" ColumnName="pk_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="playable" ColumnName="playable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="guilds">
+            <EntityTypeMapping TypeName="SmartApartmentModel.guild">
+              <MappingFragment StoreEntitySet="guild">
+                <ScalarProperty Name="pk_id" ColumnName="pk_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="realm" ColumnName="realm" />
+                <ScalarProperty Name="region" ColumnName="region" />
+                <ScalarProperty Name="fk_faction" ColumnName="fk_faction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="players">
+            <EntityTypeMapping TypeName="SmartApartmentModel.player">
+              <MappingFragment StoreEntitySet="player">
+                <ScalarProperty Name="fk_user" ColumnName="fk_user" />
+                <ScalarProperty Name="pk_id" ColumnName="pk_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="realm" ColumnName="realm" />
+                <ScalarProperty Name="region" ColumnName="region" />
+                <ScalarProperty Name="fk_class" ColumnName="fk_class" />
+                <ScalarProperty Name="fk_faction" ColumnName="fk_faction" />
+                <ScalarProperty Name="fk_race" ColumnName="fk_race" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="races">
+            <EntityTypeMapping TypeName="SmartApartmentModel.race">
+              <MappingFragment StoreEntitySet="race">
+                <ScalarProperty Name="pk_id" ColumnName="pk_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="playable" ColumnName="playable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="guild_members">
+            <EntityTypeMapping TypeName="SmartApartmentModel.guild_members">
+              <MappingFragment StoreEntitySet="guild_members">
+                <ScalarProperty Name="fk_guild" ColumnName="fk_guild" />
+                <ScalarProperty Name="fk_player" ColumnName="fk_player" />
+                <ScalarProperty Name="pk_id" ColumnName="pk_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="SmartApartmentModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="pk_id" ColumnName="pk_id" />
+                <ScalarProperty Name="auth0_subject" ColumnName="auth0_subject" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

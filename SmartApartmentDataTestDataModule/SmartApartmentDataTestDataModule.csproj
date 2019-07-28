@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{402A738D-7004-4104-BC06-FE83A2311F42}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SmartApartmentDataTestDataModule</RootNamespace>
+    <AssemblyName>SmartApartmentDataTestDataModule</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="Entity\SmartApartmentDataTestDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SmartApartmentDataTestDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entity\SmartApartmentDataTestDataModel.edmx.diagram">
+      <DependentUpon>SmartApartmentDataTestDataModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.10.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.10.8\lib\net452\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.10.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.10.8\lib\net452\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartApartmentDataTestUtility\SmartApartmentDataTestUtility.csproj">
+      <Project>{4C2F92E4-2256-4C43-AFD2-4A01D18D4593}</Project>
+      <Name>SmartApartmentDataTestUtility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data Access\ISmartApartmentDataTestDataAccess.cs" />
+    <Compile Include="Data Access\SmartApartmentDataTestDataAccess.cs" />
+    <Compile Include="DTOs\LoginDto.cs" />
+    <Compile Include="DTOs\ManagementDto.cs" />
+    <Compile Include="DTOs\PropertyDto.cs" />
+    <Compile Include="Entity\class.cs">
+      <DependentUpon>SmartApartmentDataTestDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\faction.cs">
+      <DependentUpon>SmartApartmentDataTestDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\guild.cs">
+      <DependentUpon>SmartApartmentDataTestDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\guild_members.cs">
+      <DependentUpon>SmartApartmentDataTestDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\player.cs">
+      <DependentUpon>SmartApartmentDataTestDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\race.cs">
+      <DependentUpon>SmartApartmentDataTestDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SmartApartmentDataTestDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SmartApartmentDataTestDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SmartApartmentDataTestDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SmartApartmentDataTestDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SmartApartmentDataTestDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SmartApartmentDataTestDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SmartApartmentEntities.cs" />
+    <Compile Include="Entity\user.cs">
+      <DependentUpon>SmartApartmentDataTestDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\ClassNotFoundException.cs" />
+    <Compile Include="Exceptions\FactionNotFoundException.cs" />
+    <Compile Include="Exceptions\GuildAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\GuildNotFoundException.cs" />
+    <Compile Include="Exceptions\PlayerAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\PlayerAlreadyInGuildException.cs" />
+    <Compile Include="Exceptions\PlayerNotFoundException.cs" />
+    <Compile Include="Exceptions\RaceNotFoundException.cs" />
+    <Compile Include="Models\ClassModel.cs" />
+    <Compile Include="Models\FactionModel.cs" />
+    <Compile Include="Models\GuildMemberModel.cs" />
+    <Compile Include="Models\GuildModel.cs" />
+    <Compile Include="Models\PlayerModel.cs" />
+    <Compile Include="Models\RaceModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Responses\ErrorResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Entity\SmartApartmentDataTestDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SmartApartmentDataTestDataModel.edmx</DependentUpon>
+      <LastGenOutput>SmartApartmentDataTestDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entity\SmartApartmentDataTestDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SmartApartmentDataTestDataModel.edmx</DependentUpon>
+      <LastGenOutput>SmartApartmentDataTestDataModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="dc3e5acdc3884cd794e5f34acf3957d1" Name="Diagram1">
+        <EntityTypeShape EntityType="SmartApartmentModel.class" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SmartApartmentModel.faction" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SmartApartmentModel.guild" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SmartApartmentModel.player" Width="1.5" PointX="6" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SmartApartmentModel.race" Width="1.5" PointX="3.75" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="SmartApartmentModel.player_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="SmartApartmentModel.guild_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="SmartApartmentModel.player_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="SmartApartmentModel.player_ibfk_1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SmartApartmentModel.guild_members" Width="1.5" PointX="8.625" PointY="4.25" />
+        <EntityTypeShape EntityType="SmartApartmentModel.user" Width="1.5" PointX="0.75" PointY="0.75" />
+        <AssociationConnector Association="SmartApartmentModel.guild_members_player_pk_id_fk" />
+        <AssociationConnector Association="SmartApartmentModel.player_user_id_fk" />
+        <AssociationConnector Association="SmartApartmentModel.guild_members_guild_pk_id_fk" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
